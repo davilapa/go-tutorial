@@ -26,18 +26,18 @@ func main() {
 	fmt.Println("Hello, World!!")
 	fmt.Println("Hello, ", os.Getenv("ENV"))
 
-	if os.Getenv("ENV") != "production" {
-		// Load environment variables from .env file
-		// This is only for development purposes
-		// In production, you should set environment variables directly in your server
-		// or use a service like AWS Secrets Manager, HashiCorp Vault, etc.
-		// to manage your secrets
-		// and load them into your application
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	}
+	// if os.Getenv("ENV") != "production" {
+	// 	// Load environment variables from .env file
+	// 	// This is only for development purposes
+	// 	// In production, you should set environment variables directly in your server
+	// 	// or use a service like AWS Secrets Manager, HashiCorp Vault, etc.
+	// 	// to manage your secrets
+	// 	// and load them into your application
+	// 	err := godotenv.Load(".env")
+	// 	if err != nil {
+	// 		log.Fatal("Error loading .env file")
+	// 	}
+	// }
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
 	clientOptions := options.Client().ApplyURI(MONGODB_URI)
