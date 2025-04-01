@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,20 +24,14 @@ var collection *mongo.Collection
 
 func main() {
 	fmt.Println("Hello, World!!")
-	fmt.Println("Hello, ", os.Getenv("ENV"))
 
-	// if os.Getenv("ENV") != "production" {
-	// 	// Load environment variables from .env file
-	// 	// This is only for development purposes
-	// 	// In production, you should set environment variables directly in your server
-	// 	// or use a service like AWS Secrets Manager, HashiCorp Vault, etc.
-	// 	// to manage your secrets
-	// 	// and load them into your application
-	// 	err := godotenv.Load(".env")
-	// 	if err != nil {
-	// 		log.Fatal("Error loading .env file")
-	// 	}
-	// }
+	if os.Getenv("ENV") != "production" {
+		// Load the .env file if not in production
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading .env file:", err)
+		}
+	}
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
 	clientOptions := options.Client().ApplyURI(MONGODB_URI)
@@ -52,9 +47,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Connected to MongoDB!")
 
-	collection = (*mongo.Collection)(client.Database("golang_db").Collection("todos"))
+	fmt.Println("Connected to MONGODB ATLAS")
+
+	collection = client.Database("golang_db").Collection("todos")
 
 	app := fiber.New()
 
@@ -68,7 +64,7 @@ func main() {
 	app.Patch("/api/todos/:id", updateTodo)
 	app.Delete("/api/todos/:id", deleteTodo)
 
-	port:= os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "4000"
 	}
