@@ -15,9 +15,9 @@ import (
 )
 
 type Todo struct {
-	ID        primitive.ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
-	Completed bool   				`json:"completed"`
-	Body      string 				`json:"body"`
+	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Completed bool               `json:"completed"`
+	Body      string             `json:"body"`
 }
 
 var collection *mongo.Collection
@@ -101,7 +101,7 @@ func getTodos(c *fiber.Ctx) error {
 
 func createTodos(c *fiber.Ctx) error {
 	todo := new(Todo)
-	if err := c.BodyParser(todo); err != nil {	
+	if err := c.BodyParser(todo); err != nil {
 		return err
 	}
 
@@ -119,7 +119,6 @@ func createTodos(c *fiber.Ctx) error {
 	todo.ID = inertReult.InsertedID.(primitive.ObjectID)
 	return c.Status(201).JSON(todo)
 
-
 }
 func updateTodo(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -131,7 +130,7 @@ func updateTodo(c *fiber.Ctx) error {
 		})
 	}
 	filter := bson.M{"_id": ObjectID}
-	
+
 	update := bson.M{
 		"$set": bson.M{
 			"completed": true,
