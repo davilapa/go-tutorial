@@ -24,6 +24,7 @@ var collection *mongo.Collection
 
 func main() {
 	fmt.Println("Hello, World!!")
+	fmt.Println("Hello, ", os.Getenv("ENV"))
 
 	if os.Getenv("ENV") != "production" {
 		// Load environment variables from .env file
